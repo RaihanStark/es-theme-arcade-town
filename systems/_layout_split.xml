@@ -6,7 +6,7 @@
       <origin>0 0</origin>
       <pos>0 0</pos>
       <size>1 1</size>
-      <path>./_inc/frames/bg_system_split.png</path>
+      <path>${frameDir}/bg_system_split.png</path>
       <linearSmooth>false</linearSmooth>
       <zIndex>1</zIndex>
     </image>

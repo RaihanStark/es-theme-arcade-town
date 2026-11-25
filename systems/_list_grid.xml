@@ -29,20 +29,20 @@
     </imagegrid>
 
     <gridtile name="default">
-      <backgroundImage>./_inc/frames/tile_frame.png</backgroundImage>
+      <backgroundImage>${frameDir}/tile_frame.png</backgroundImage>
       <backgroundCornerSize>6 6</backgroundCornerSize>
       <backgroundColor>FFFFFF</backgroundColor>
       <padding>8 8</padding>
-      <imageColor>4A527A</imageColor>
+      <imageColor>${logoUnselected}</imageColor>
       <imageSizeMode>maxSize</imageSizeMode>
     </gridtile>
 
     <gridtile name="selected">
-      <backgroundImage>./_inc/frames/tile_frame_sel.png</backgroundImage>
+      <backgroundImage>${frameDir}/tile_frame_sel.png</backgroundImage>
       <backgroundCornerSize>8 8</backgroundCornerSize>
       <backgroundColor>FFFFFF</backgroundColor>
       <padding>8 8</padding>
-      <imageColor>1E2448</imageColor>
+      <imageColor>${logoSelected}</imageColor>
     </gridtile>
 
     <image name="gridtile.image">

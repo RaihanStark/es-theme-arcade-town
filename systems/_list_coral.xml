@@ -4,7 +4,7 @@
   <view name="system">
     <image name="list_selector_bg" extra="true">
       <visible>true</visible>
-      <path>./_inc/frames/list_sel_coral.png</path>
+      <path>${frameDir}/list_sel_coral.png</path>
       <origin>0.5 0.5</origin>
       <pos>0.192 0.503</pos>
       <size>0.294 0.084</size>

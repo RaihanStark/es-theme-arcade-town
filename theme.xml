@@ -11,25 +11,24 @@
   <formatVersion>7</formatVersion>
 
   <variables>
-    <bgCream>ECE8E1</bgCream>
-    <inkNavy>1E2448</inkNavy>
-    <inkMuted>4A527A</inkMuted>
-    <accentCoral>E86F7A</accentCoral>
-    <accentTeal>0097A7</accentTeal>
-    <accentGold>D99B38</accentGold>
-    <paperFill>EAE7F0</paperFill>
     <fontMain>./_inc/fonts/PeaberryBase.ttf</fontMain>
     <fontTitle>./_inc/fonts/PeaberryBase.ttf</fontTitle>
   </variables>
 
+  <!-- ==================== COLOR SCHEME (DAY / NIGHT) ==================== -->
+  <subset name="colorscheme" displayName="Color Scheme">
+    <include name="day" displayName="Daylight Cream">./systems/_color_day.xml</include>
+    <include name="night" displayName="Midnight Arcade (Dark)">./systems/_color_night.xml</include>
+  </subset>
+
   <!-- ==================== SPLASH / LOADING VIEW ==================== -->
   <view name="splash">
     <splash name="splash">
-      <backgroundColor>${bgCream}</backgroundColor>
+      <backgroundColor>${bgCanvas}</backgroundColor>
     </splash>
 
     <image name="background">
-      <path>./_inc/frames/splash_bg.png</path>
+      <path>${frameDir}/splash_bg.png</path>
       <origin>0 0</origin>
       <pos>0 0</pos>
       <size>1 1</size>
@@ -48,8 +47,8 @@
     <image name="progressbar">
       <pos>0.22 0.85</pos>
       <size>0.56 0.034</size>
-      <color>EAE7F0</color>
-      <colorEnd>EAE7F0</colorEnd>
+      <color>${paperFill}</color>
+      <colorEnd>${paperFill}</colorEnd>
     </image>
 
     <image name="progressbar:active">
@@ -97,14 +96,14 @@
   <!-- ==================== MENU VIEW ==================== -->
   <view name="menu">
     <menuBackground name="menubg">
-      <path>./_inc/frames/menu_frame_9patch.png</path>
+      <path>${frameDir}/menu_frame_9patch.png</path>
       <cornerSize>16 16</cornerSize>
       <color>FFFFFF</color>
-      <scrollbarColor>B7B5D8</scrollbarColor>
+      <scrollbarColor>${menuScroll}</scrollbarColor>
     </menuBackground>
 
     <menuGrid name="menugrid">
-      <separatorColor>D4D0E0</separatorColor>
+      <separatorColor>${menuSep}</separatorColor>
     </menuGrid>
 
     <menuText name="menutitle">
@@ -120,14 +119,14 @@
       <selectedColor>FAF8F5</selectedColor>
       <selectorColor>${accentCoral}</selectorColor>
       <selectorColorEnd>${accentCoral}</selectorColorEnd>
-      <separatorColor>D4D0E0</separatorColor>
+      <separatorColor>${menuSep}</separatorColor>
     </menuText>
 
     <menuText name="menugroup">
       <fontPath>${fontTitle}</fontPath>
       <fontSize>0.024</fontSize>
       <color>${accentTeal}</color>
-      <separatorColor>B7B5D8</separatorColor>
+      <separatorColor>${menuScroll}</separatorColor>
     </menuText>
 
     <menuTextSmall name="menutextsmall">
@@ -167,7 +166,7 @@
       <origin>0 0</origin>
       <pos>0 0</pos>
       <size>1 1</size>
-      <path>./_inc/frames/bg_gamelist.png</path>
+      <path>${frameDir}/bg_gamelist.png</path>
       <linearSmooth>false</linearSmooth>
       <zIndex>1</zIndex>
     </image>

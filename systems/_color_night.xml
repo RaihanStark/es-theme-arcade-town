@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <variables>
+    <bgCanvas>161A30</bgCanvas>
+    <inkNavy>F2EDE4</inkNavy>
+    <inkMuted>A5AECB</inkMuted>
+    <accentCoral>E86F7A</accentCoral>
+    <accentTeal>5CD6E6</accentTeal>
+    <accentGold>D99B38</accentGold>
+    <paperFill>212747</paperFill>
+    <menuSep>353D68</menuSep>
+    <menuScroll>5C6696</menuScroll>
+    <logoUnselected>A5AECB</logoUnselected>
+    <logoSelected>FAF8F5</logoSelected>
+    <frameDir>./_inc/frames/dark</frameDir>
+  </variables>
+</theme>

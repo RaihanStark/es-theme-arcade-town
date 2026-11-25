@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <variables>
+    <bgCanvas>ECE8E1</bgCanvas>
+    <inkNavy>1E2448</inkNavy>
+    <inkMuted>4A527A</inkMuted>
+    <accentCoral>E86F7A</accentCoral>
+    <accentTeal>0097A7</accentTeal>
+    <accentGold>D99B38</accentGold>
+    <paperFill>EAE7F0</paperFill>
+    <menuSep>D4D0E0</menuSep>
+    <menuScroll>B7B5D8</menuScroll>
+    <logoUnselected>4A527A</logoUnselected>
+    <logoSelected>1E2448</logoSelected>
+    <frameDir>./_inc/frames</frameDir>
+  </variables>
+</theme>
