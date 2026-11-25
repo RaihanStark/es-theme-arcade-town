@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <image name="list_selector_bg" extra="true">
+      <visible>false</visible>
+    </image>
+
+    <!-- Classic RPG Menu List (coral selector slides up/down over fixed rows, matching Gamelist!) -->
+    <textlist name="textlist">
+      <pos>0.044 0.120</pos>
+      <size>0.295 0.765</size>
+      <origin>0 0</origin>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.030</fontSize>
+      <primaryColor>${inkNavy}</primaryColor>
+      <secondaryColor>${accentTeal}</secondaryColor>
+      <selectedColor>FAF8F5</selectedColor>
+      <selectorColor>${accentCoral}</selectorColor>
+      <selectorColorEnd>${accentCoral}</selectorColorEnd>
+      <selectorImagePath>./_inc/frames/selector.png</selectorImagePath>
+      <selectorHeight>0.064</selectorHeight>
+      <horizontalMargin>0.025</horizontalMargin>
+      <alignment>left</alignment>
+      <lineSpacing>1.55</lineSpacing>
+      <forceUppercase>1</forceUppercase>
+      <zIndex>20</zIndex>
+    </textlist>
+  </view>
+</theme>

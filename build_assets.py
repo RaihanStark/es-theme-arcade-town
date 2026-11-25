@@ -166,6 +166,33 @@ def build_selector_and_menu():
     m9 = Image.new("RGBA", (48, 48), PAPER)
     m9.save(FRAMES / "menu_frame_9patch.png")
 
+    # Left Console List selector bar: Coral RPG Pill (188x40)
+    sc = Image.new("RGBA", (188, 40), (0, 0, 0, 0))
+    dsc = ImageDraw.Draw(sc)
+    dsc.rectangle([0, 0, 187, 39], fill=NAVY)
+    dsc.rectangle([2, 2, 185, 37], fill=(246, 206, 210, 255))
+    dsc.rectangle([2, 2, 185, 5], fill=(252, 228, 230, 255))
+    dsc.rectangle([2, 2, 18, 37], fill=CORAL)
+    dsc.rectangle([18, 2, 19, 37], fill=NAVY)
+    for i in range(5):
+        dsc.line([(7 + i, 15 + i), (7 + i, 24 - i)], fill=WHITE)
+    sc.save(FRAMES / "list_sel_coral.png")
+
+    # Grid tile frames (normal + selected coral highlight) for 2x4 Pixel Badge Grid
+    tn = Image.new("RGBA", (86, 86), (0, 0, 0, 0))
+    dtn = ImageDraw.Draw(tn)
+    dtn.rectangle([0, 0, 85, 85], fill=NAVY)
+    dtn.rectangle([2, 2, 83, 83], fill=BG_CREAM)
+    tn.save(FRAMES / "tile_frame.png")
+
+    ts = Image.new("RGBA", (86, 86), (0, 0, 0, 0))
+    dts = ImageDraw.Draw(ts)
+    dts.rectangle([0, 0, 85, 85], fill=NAVY)
+    dts.rectangle([2, 2, 83, 83], fill=CORAL)
+    dts.rectangle([5, 5, 80, 80], fill=NAVY)
+    dts.rectangle([7, 7, 78, 78], fill=(252, 228, 230, 255))
+    ts.save(FRAMES / "tile_frame_sel.png")
+
     # Solid cream fullscreen backdrop behind ES menus (via fadePath)
     fade = Image.new("RGBA", (64, 64), BG_CREAM)
     fade.save(FRAMES / "menu_fade.png")

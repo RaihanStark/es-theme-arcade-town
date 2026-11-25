@@ -105,10 +105,16 @@
     </menuText>
   </view>
 
-  <!-- ==================== SYSTEM VIEW: LAYOUT SUBSETS ==================== -->
+  <!-- ==================== SYSTEM VIEW: LAYOUT & LEFT LIST SUBSETS ==================== -->
   <subset name="layout" displayName="System View Layout">
     <include name="split" displayName="RPG Split Directory (Multi-System)">./systems/_layout_split.xml</include>
     <include name="street" displayName="Town Street (3 Shops)">./systems/_layout_street.xml</include>
+  </subset>
+
+  <subset name="liststyle" displayName="Left Console List Style">
+    <include name="coral" displayName="Coral RPG Bar (Carousel)">./systems/_list_coral.xml</include>
+    <include name="grid" displayName="2x4 Pixel Badge Grid">./systems/_list_grid.xml</include>
+    <include name="textlist" displayName="Classic RPG Menu List">./systems/_list_textlist.xml</include>
   </subset>
 
   <!-- ==================== GAMELIST VIEWS (DETAILED / VIDEO / BASIC) ==================== -->
