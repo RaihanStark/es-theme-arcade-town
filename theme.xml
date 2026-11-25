@@ -143,7 +143,13 @@
     </menuText>
   </view>
 
-  <!-- ==================== SYSTEM VIEW: LAYOUT & LEFT LIST SUBSETS ==================== -->
+  <!-- ==================== SYSTEM VIEW: BGM + LAYOUT & LEFT LIST SUBSETS ==================== -->
+  <view name="system">
+    <sound name="directory">
+      <path>./_inc/music</path>
+    </sound>
+  </view>
+
   <subset name="layout" displayName="System View Layout">
     <include name="split" displayName="RPG Split Directory (Multi-System)">./systems/_layout_split.xml</include>
     <include name="street" displayName="Town Street (3 Shops)">./systems/_layout_street.xml</include>
