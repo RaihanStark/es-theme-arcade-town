@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Bramble</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Step right in! The 16-bit SNES Boutique has Mode-7 racers, golden-era JRPGs, and pixel-perfect platformers.</text>
+    </text>
+  </view>
+</theme>

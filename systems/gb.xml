@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Dot</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Four shades of green, endless memories! Welcome to the original Game Boy Pocket Stand.</text>
+    </text>
+  </view>
+</theme>

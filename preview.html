@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>R36S Live Preview — es-theme-arcade-town</title>
+<style>
+  @font-face {
+    font-family: 'PeaberryBase';
+    src: url('/_inc/fonts/PeaberryBase.ttf') format('truetype');
+  }
+
+  * { box-sizing: border-box; user-select: none; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #141622;
+    color: #e6e4f0;
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: #1e2236;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #323859;
+    font-size: 13px;
+  }
+  .toolbar button {
+    background: #2b314d;
+    color: #fff;
+    border: 1px solid #485280;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .toolbar button:hover { background: #3b446b; }
+  .toolbar button.active { background: #E86F7A; border-color: #f29fa3; color: #1E2448; }
+  .sep { width: 1px; height: 22px; background: #384066; margin: 0 2px; }
+  .kbd {
+    background: #121521;
+    border: 1px solid #3c4366;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #5CD6E6;
+  }
+
+  .bezel {
+    background: linear-gradient(145deg, #252734, #171923);
+    padding: 26px 32px 34px;
+    border-radius: 26px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+    border: 2px solid #2e3247;
+  }
+  .bezel.plain {
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  }
+  .bezel-label {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #6b7294;
+    margin-top: 12px;
+    font-weight: 700;
+  }
+  .bezel.plain .bezel-label { display: none; }
+
+  .screen-wrap {
+    width: 640px;
+    height: 480px;
+    overflow: hidden;
+    border-radius: 6px;
+    border: 3px solid #0c0d14;
+    position: relative;
+    background: #ECE8E1;
+    image-rendering: pixelated;
+    font-family: 'PeaberryBase', monospace;
+  }
+
+  .layer { position: absolute; inset: 0; width: 640px; height: 480px; }
+  .hidden { display: none !important; }
+
+  /* ==================== SPLIT DIRECTORY SYSTEM VIEW ==================== */
+  #split-header {
+    position: absolute;
+    left: 18px;
+    top: 8px;
+    font-size: 17px;
+    color: #1E2448;
+  }
+  #split-list {
+    position: absolute;
+    left: 28px;
+    top: 62px;
+    width: 190px;
+    height: 386px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: hidden;
+  }
+  .sys-row {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px;
+    color: #1E2448;
+    font-size: 15px;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .sys-row img {
+    width: 24px;
+    height: 24px;
+    image-rendering: pixelated;
+    border: 2px solid #1E2448;
+    background: #1D4B8F;
+  }
+  .sys-row .row-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: #4A527A;
+  }
+  .sys-row.selected {
+    background: #E86F7A;
+    color: #FAF8F5;
+    border: 2px solid #1E2448;
+    box-shadow: inset 0 2px 0 #F29FA3;
+  }
+  .sys-row.selected .row-count { color: #FAF8F5; }
+
+  #split-shop-wrap {
+    position: absolute;
+    left: 312px;
+    top: 158px;
+    width: 240px;
+    height: 218px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  #split-shop {
+    max-width: 212px;
+    max-height: 206px;
+    image-rendering: pixelated;
+    transition: opacity 0.12s ease, transform 0.12s ease;
+  }
+  #split-shop.switching { opacity: 0; transform: translateY(6px); }
+  #split-footer-title {
+    position: absolute;
+    left: 264px;
+    top: 423px;
+    font-size: 16px;
+    color: #1E2448;
+  }
+  #split-count {
+    position: absolute;
+    right: 36px;
+    top: 425px;
+    font-size: 14px;
+    color: #0097A7;
+  }
+
+  /* ==================== TOWN STREET (3 SHOPS) SYSTEM VIEW ==================== */
+  #street-help {
+    position: absolute;
+    top: 8px;
+    left: 18px;
+    font-size: 13px;
+    color: #4A527A;
+  }
+  #street-count {
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    font-size: 13px;
+    color: #4A527A;
+  }
+  #street-row {
+    position: absolute;
+    top: 52px;
+    left: 0;
+    width: 640px;
+    height: 270px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+    overflow: hidden;
+  }
+  .street-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  .street-card.side {
+    opacity: 0.58;
+    transform: scale(0.76);
+    transform-origin: bottom center;
+  }
+  .street-card.side:hover { opacity: 0.85; }
+  .street-card.center {
+    opacity: 1;
+    transform: scale(1.0);
+    z-index: 5;
+  }
+  .street-card img {
+    max-width: 250px;
+    max-height: 230px;
+    image-rendering: pixelated;
+  }
+  .street-pill {
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    background: #EAE7F0;
+    border: 2px solid #1E2448;
+    font-size: 12px;
+    color: #1E2448;
+  }
+  .street-card.center .street-pill {
+    background: #E86F7A;
+    color: #FAF8F5;
+  }
+  #street-nameplate {
+    position: absolute;
+    left: 34px;
+    top: 338px;
+    width: 136px;
+    font-size: 14px;
+    color: #1E2448;
+  }
+  #street-portrait {
+    position: absolute;
+    left: 41px;
+    top: 381px;
+    width: 54px;
+    height: 60px;
+    object-fit: contain;
+    image-rendering: pixelated;
+  }
+  #street-dialogue {
+    position: absolute;
+    left: 114px;
+    top: 374px;
+    width: 480px;
+    height: 76px;
+    font-size: 17px;
+    line-height: 1.25;
+    color: #1E2448;
+  }
+
+  /* ==================== GAMELIST VIEW ==================== */
+  #gl-header {
+    position: absolute;
+    left: 20px;
+    top: 8px;
+    font-size: 18px;
+    color: #1E2448;
+  }
+  #gl-list {
+    position: absolute;
+    left: 30px;
+    top: 66px;
+    width: 286px;
+    height: 266px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .gl-item {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 12px 0 22px;
+    font-size: 16px;
+    color: #1E2448;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  .gl-item.selected {
+    background: url('/_inc/frames/selector.png') no-repeat left center / 100% 100%;
+    color: #FAF8F5;
+  }
+  #gl-art-box {
+    position: absolute;
+    left: 356px;
+    top: 70px;
+    width: 248px;
+    height: 212px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #5CD6E6;
+    font-size: 13px;
+    text-align: center;
+    padding: 12px;
+  }
+  #gl-art-box img { max-width: 100%; max-height: 100%; image-rendering: pixelated; }
+  #gl-genre {
+    position: absolute;
+    right: 32px;
+    top: 296px;
+    font-size: 12px;
+    color: #4A527A;
+  }
+  #gl-desc {
+    position: absolute;
+    left: 34px;
+    top: 372px;
+    width: 572px;
+    height: 78px;
+    font-size: 16px;
+    line-height: 1.25;
+    color: #1E2448;
+  }
+
+  /* ==================== FULLSCREEN MENU OVERLAY ==================== */
+  #view-menu {
+    background: #ECE8E1;
+  }
+  #menu-header {
+    position: absolute;
+    left: 20px;
+    top: 8px;
+    font-size: 18px;
+    color: #1E2448;
+  }
+  #menu-list {
+    position: absolute;
+    left: 32px;
+    top: 68px;
+    width: 576px;
+    height: 344px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .menu-row {
+    height: 44px;
+    line-height: 40px;
+    padding: 0 18px;
+    font-size: 18px;
+    color: #1E2448;
+    border: 2px solid transparent;
+    border-bottom: 1px solid #D4D0E0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .menu-row .menu-hint {
+    font-size: 13px;
+    color: #4A527A;
+  }
+  .menu-row.active {
+    background: #E86F7A;
+    color: #FAF8F5;
+    border: 2px solid #1E2448;
+    box-shadow: inset 0 2px 0 #F29FA3;
+  }
+  .menu-row.active .menu-hint { color: #FAF8F5; }
+  #menu-footer {
+    position: absolute;
+    left: 34px;
+    top: 432px;
+    width: 572px;
+    font-size: 13px;
+    color: #4A527A;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <span><strong>es-theme-arcade-town</strong> (PeaberryBase)</span>
+    <span class="sep"></span>
+    <button id="btn-split" class="active" onclick="setLayout('split')">Split Directory</button>
+    <button id="btn-street" onclick="setLayout('street')">Town Street (3 Shops)</button>
+    <span class="sep"></span>
+    <button id="btn-gl" onclick="setView('gamelist')">Gamelist</button>
+    <button id="btn-menu" onclick="toggleMenu()">ES Menu</button>
+    <button onclick="toggleBezel()">Bezel</button>
+    <span class="sep"></span>
+    <span><span class="kbd">↑↓ / ←→</span> Browse</span>
+    <span><span class="kbd">Enter</span> Open</span>
+    <span><span class="kbd">Esc</span> Back</span>
+  </div>
+
+  <div class="bezel" id="bezel">
+    <div class="screen-wrap" id="screen">
+      <!-- SYSTEM VIEW: SPLIT DIRECTORY -->
+      <div class="layer" id="view-split">
+        <img src="/_inc/frames/bg_system_split.png" style="width:640px;height:480px;image-rendering:pixelated;" alt="bg" />
+        <div id="split-header">ARCADE TOWN</div>
+        <div id="split-list"></div>
+        <div id="split-shop-wrap"><img id="split-shop" src="/art/shops/ports.png" alt="shop" /></div>
+        <div id="split-footer-title">PORTS</div>
+        <div id="split-count">8 GAMES</div>
+      </div>
+
+      <!-- SYSTEM VIEW: TOWN STREET (3 SHOPS) -->
+      <div class="layer hidden" id="view-street">
+        <img src="/_inc/frames/bg_system_street.png" style="width:640px;height:480px;image-rendering:pixelated;" alt="bg" />
+        <div id="street-help">◀▶ WALK STREET  •  A ENTER SHOP  •  START MENU</div>
+        <div id="street-count">8 GAMES</div>
+        <div id="street-row"></div>
+        <div id="street-nameplate">Cybion</div>
+        <img id="street-portrait" src="/_inc/portraits/ports.png" alt="portrait" />
+        <div id="street-dialogue"></div>
+      </div>
+
+      <!-- GAMELIST VIEW -->
+      <div class="layer hidden" id="view-gamelist">
+        <img src="/_inc/frames/bg_gamelist.png" style="width:640px;height:480px;image-rendering:pixelated;" alt="glbg" />
+        <div id="gl-header">PORTS SHOP</div>
+        <div id="gl-list"></div>
+        <div id="gl-art-box"></div>
+        <div id="gl-genre">ACTION / PORT</div>
+        <div id="gl-desc"></div>
+      </div>
+
+      <!-- FULLSCREEN MENU OVERLAY -->
+      <div class="layer hidden" id="view-menu">
+        <img src="/_inc/frames/menu_fullscreen.png" style="width:640px;height:480px;image-rendering:pixelated;" alt="menubg" />
+        <div id="menu-header">MAIN MENU</div>
+        <div id="menu-list"></div>
+        <div id="menu-footer">
+          <span>▲▼ SELECT &nbsp;•&nbsp; A CONFIRM &nbsp;•&nbsp; B / ESC CLOSE</span>
+          <span>ARKOS • R36S</span>
+        </div>
+      </div>
+    </div>
+    <div class="bezel-label">R 3 6 S &nbsp; • &nbsp; A R K O S</div>
+  </div>
+
+<script>
+const SYSTEMS = [
+  {
+    id: 'ports', short: 'PORTS', nameplate: 'Cybion', fullName: 'PORTS',
+    shop: '/art/shops/ports.png', portrait: '/_inc/portraits/ports.png', count: 8,
+    dialogue: 'Hello! Welcome to the PortMaster patching shop. Pick a native port and press A to jump in!',
+    games: [
+      { title: 'Ship of Harkinian', genre: 'ACTION / ADVENTURE', desc: 'A native PC port of Ocarina of Time with 60 FPS, free camera controls, and modern enhancements.' },
+      { title: 'Celeste', genre: 'PLATFORMER', desc: 'Help Madeline survive her inner demons on her journey to the top of Celeste Mountain.' },
+      { title: 'Stardew Valley', genre: 'FARMING RPG', desc: 'You inherited your grandfather\'s old farm plot in Stardew Valley. Set out to begin a new life.' },
+      { title: 'Balatro', genre: 'ROGUELIKE DECKBUILDER', desc: 'The poker roguelike. Play illegal poker hands, discover jokers, and trigger huge combos.' },
+    ]
+  },
+  {
+    id: 'gba', short: 'GBA', nameplate: 'Pippin', fullName: 'GAME BOY ADVANCE',
+    shop: '/art/shops/gba.png', portrait: '/_inc/portraits/gba.png', count: 24,
+    dialogue: 'Welcome to the GBA Cartridge Corner! Every 32-bit pocket classic is dusted and ready to play.',
+    games: [
+      { title: 'Pokemon Emerald', genre: 'RPG', desc: 'Journey across Hoenn, challenge the Battle Frontier, and awaken Rayquaza.' },
+      { title: 'Metroid: Zero Mission', genre: 'METROIDVANIA', desc: 'Samus Aran\'s original mission on Planet Zebes reimagined with crisp pixel art.' },
+      { title: 'The Minish Cap', genre: 'ADVENTURE', desc: 'Shrink down to the size of a Picori with Ezlo to restore the shattered Picori Blade.' },
+      { title: 'Golden Sun', genre: 'JRPG', desc: 'Harness Psynergy and collect elemental Djinn to stop the return of Alchemy.' },
+    ]
+  },
+  {
+    id: 'snes', short: 'SNES', nameplate: 'Bramble', fullName: 'SUPER NINTENDO',
+    shop: '/art/shops/snes.png', portrait: '/_inc/portraits/snes.png', count: 19,
+    dialogue: 'Step right in! The 16-bit SNES Boutique has golden-era JRPGs and pixel-perfect platformers.',
+    games: [
+      { title: 'Chrono Trigger', genre: 'JRPG', desc: 'Travel through time from prehistoric eras to the distant future to stop Lavos.' },
+      { title: 'Super Metroid', genre: 'EXPLORATION', desc: 'Return to Planet Zebes in one of the most atmospheric 16-bit adventures ever made.' },
+      { title: 'EarthBound', genre: 'QUIRKY RPG', desc: 'Grab your baseball bat and join Ness and friends on a heartwarming road trip.' },
+    ]
+  },
+  {
+    id: 'psx', short: 'PSX', nameplate: 'CD-Bot', fullName: 'PLAYSTATION',
+    shop: '/art/shops/psx.png', portrait: '/_inc/portraits/psx.png', count: 14,
+    dialogue: 'Spinning up the lasers! Welcome to the PSX Disc Emporium — 32-bit RPGs and CRT classics await.',
+    games: [
+      { title: 'Castlevania: SotN', genre: 'METROIDVANIA', desc: 'Guide Alucard through Dracula\'s sprawling, secret-filled gothic castle.' },
+      { title: 'Final Fantasy IX', genre: 'JRPG', desc: 'Join Zidane, Vivi, Garnet, and Steiner in a timeless fantasy tale.' },
+      { title: 'Metal Gear Solid', genre: 'STEALTH ACTION', desc: 'Infiltrate Shadow Moses Island as Solid Snake to stop FOXHOUND.' },
+    ]
+  },
+  {
+    id: 'n64', short: 'N64', nameplate: 'Poly', fullName: 'NINTENDO 64',
+    shop: '/art/shops/default.png', portrait: '/_inc/portraits/n64.png', count: 9,
+    dialogue: 'Welcome to the 64-Bit Arcade Loft! Grab a controller and dive into low-poly 3D worlds.',
+    games: [
+      { title: 'Super Mario 64', genre: '3D PLATFORMER', desc: 'Leap into paintings inside Peach\'s Castle to collect Power Stars.' },
+      { title: 'Paper Mario', genre: 'RPG', desc: 'A charming storybook RPG where Mario rescues the seven Star Spirits.' },
+    ]
+  },
+  {
+    id: 'gb', short: 'GAME BOY', nameplate: 'Dot', fullName: 'GAME BOY',
+    shop: '/art/shops/default.png', portrait: '/_inc/portraits/gb.png', count: 11,
+    dialogue: 'Four shades of green, endless memories! Welcome to the Game Boy Pocket Stand.',
+    games: [
+      { title: 'Link\'s Awakening', genre: 'ADVENTURE', desc: 'Washed ashore on Koholint Island, awaken the Wind Fish to return home.' },
+      { title: 'Tetris', genre: 'PUZZLE', desc: 'The timeless falling-blocks puzzle masterpiece.' },
+    ]
+  },
+  {
+    id: 'pico-8', short: 'PICO-8', nameplate: 'Lex', fullName: 'PICO-8',
+    shop: '/art/shops/default.png', portrait: '/_inc/portraits/pico-8.png', count: 6,
+    dialogue: 'Tiny cartridges, huge charm! Welcome to the PICO-8 Fantasy Console stand.',
+    games: [
+      { title: 'Celeste Classic', genre: 'PLATFORMER', desc: 'The original 4-day PICO-8 jam game that inspired the indie legend.' },
+    ]
+  },
+  {
+    id: 'j2me', short: 'J2ME', nameplate: 'T9-Bot', fullName: 'JAVA MOBILE',
+    shop: '/art/shops/default.png', portrait: '/_inc/portraits/j2me.png', count: 4,
+    dialogue: 'Flip phone classics preserved forever! Browse the J2ME Mobile Corner.',
+    games: [
+      { title: 'Bounce Tales', genre: 'PLATFORMER', desc: 'Guide the red ball Bounce through colorful Nokia-era stages.' },
+    ]
+  },
+  {
+    id: 'pymo', short: 'PYMO', nameplate: 'Story', fullName: 'PYMO',
+    shop: '/art/shops/default.png', portrait: '/_inc/portraits/pymo.png', count: 2,
+    dialogue: 'Cozy up with a good story! Welcome to the PyMO Visual Novel Reading Room.',
+    games: [
+      { title: 'Visual Novel Collection', genre: 'VISUAL NOVEL', desc: 'Interactive stories rendered natively on your handheld.' },
+    ]
+  }
+];
+
+const MENU_ITEMS = [
+  { label: 'UI SETTINGS', hint: 'THEME • LAYOUT • TRANSITIONS' },
+  { label: 'SOUND SETTINGS', hint: 'VOLUME • BGM • UI SOUNDS' },
+  { label: 'SCRAPER', hint: 'BOXART • VIDEOS • DESCRIPTIONS' },
+  { label: 'GAME COLLECTION SETTINGS', hint: 'FAVORITES • RECENT • SYSTEMS' },
+  { label: 'NETWORK & WI-FI', hint: 'CONNECT • RETROACHIEVEMENTS' },
+  { label: 'ADVANCED SETTINGS', hint: 'EMULATORS • PERFORMANCE' },
+  { label: 'QUIT / SHUTDOWN', hint: 'RESTART ES • POWER OFF' },
+];
+
+let sysIdx = 0;
+let gameIdx = 0;
+let menuIdx = 0;
+let currentView = 'system';
+let sysLayout = 'split';
+let menuOpen = false;
+
+function renderMenu() {
+  const list = document.getElementById('menu-list');
+  list.innerHTML = '';
+  MENU_ITEMS.forEach((m, idx) => {
+    const row = document.createElement('div');
+    row.className = 'menu-row' + (idx === menuIdx ? ' active' : '');
+    row.innerHTML = `<span>${idx === menuIdx ? '▸ ' : ''}${m.label}</span><span class="menu-hint">${m.hint}</span>`;
+    row.onclick = () => { menuIdx = idx; renderMenu(); };
+    list.appendChild(row);
+  });
+}
+
+function renderSplit(animate = false) {
+  const list = document.getElementById('split-list');
+  list.innerHTML = '';
+  // Show a sliding window of 8 systems so multi-system view always feels full
+  const maxVis = 8;
+  let start = Math.max(0, Math.min(sysIdx - 3, SYSTEMS.length - maxVis));
+  for (let i = start; i < Math.min(SYSTEMS.length, start + maxVis); i++) {
+    const s = SYSTEMS[i];
+    const row = document.createElement('div');
+    row.className = 'sys-row' + (i === sysIdx ? ' selected' : '');
+    row.innerHTML = `<img src="${s.portrait}" /><span>${s.short}</span><span class="row-count">${s.count}</span>`;
+    row.onclick = () => {
+      if (sysIdx === i) setView('gamelist');
+      else { sysIdx = i; renderSystem(true); }
+    };
+    list.appendChild(row);
+  }
+
+  const s = SYSTEMS[sysIdx];
+  const shopImg = document.getElementById('split-shop');
+  if (animate) {
+    shopImg.classList.add('switching');
+    setTimeout(() => { shopImg.src = s.shop; shopImg.classList.remove('switching'); }, 90);
+  } else {
+    shopImg.src = s.shop;
+  }
+  document.getElementById('split-footer-title').textContent = s.fullName;
+  document.getElementById('split-count').textContent = `${s.count} GAMES`;
+}
+
+function renderStreet() {
+  const row = document.getElementById('street-row');
+  row.innerHTML = '';
+  const n = SYSTEMS.length;
+  const indices = [(sysIdx - 1 + n) % n, sysIdx, (sysIdx + 1) % n];
+  indices.forEach((idx, pos) => {
+    const s = SYSTEMS[idx];
+    const card = document.createElement('div');
+    card.className = 'street-card ' + (pos === 1 ? 'center' : 'side');
+    card.innerHTML = `<div class="street-pill">${s.short}</div><img src="${s.shop}" />`;
+    card.onclick = () => {
+      if (pos === 1) setView('gamelist');
+      else { sysIdx = idx; renderSystem(true); }
+    };
+    row.appendChild(card);
+  });
+  const s = SYSTEMS[sysIdx];
+  document.getElementById('street-count').textContent = `${s.count} GAMES`;
+  document.getElementById('street-nameplate').textContent = s.nameplate;
+  document.getElementById('street-portrait').src = s.portrait;
+  document.getElementById('street-dialogue').textContent = s.dialogue;
+}
+
+function renderSystem(animate = false) {
+  if (sysLayout === 'split') renderSplit(animate);
+  else renderStreet();
+}
+
+function renderGamelist() {
+  const s = SYSTEMS[sysIdx];
+  document.getElementById('gl-header').textContent = `${s.fullName} SHOP`;
+  const list = document.getElementById('gl-list');
+  list.innerHTML = '';
+  s.games.forEach((g, idx) => {
+    const el = document.createElement('div');
+    el.className = 'gl-item' + (idx === gameIdx ? ' selected' : '');
+    el.textContent = g.title;
+    el.onclick = () => { gameIdx = idx; renderGamelist(); };
+    list.appendChild(el);
+  });
+  const g = s.games[gameIdx] || s.games[0];
+  document.getElementById('gl-genre').textContent = g.genre;
+  document.getElementById('gl-desc').textContent = g.desc;
+  document.getElementById('gl-art-box').innerHTML = `
+    <img src="${s.portrait}" style="width:72px;height:72px;margin-bottom:10px;" />
+    <div style="color:#FAF8F5;font-size:14px;margin-bottom:4px;">${g.title}</div>
+    <div style="color:#5CD6E6;font-size:11px;">[ SCRAPED BOXART / VIDEO ]</div>
+  `;
+}
+
+function setLayout(l) {
+  sysLayout = l;
+  currentView = 'system';
+  document.getElementById('view-split').classList.toggle('hidden', l !== 'split');
+  document.getElementById('view-street').classList.toggle('hidden', l !== 'street');
+  document.getElementById('view-gamelist').classList.add('hidden');
+  document.getElementById('btn-split').classList.toggle('active', l === 'split');
+  document.getElementById('btn-street').classList.toggle('active', l === 'street');
+  document.getElementById('btn-gl').classList.remove('active');
+  renderSystem(false);
+}
+
+function setView(v) {
+  currentView = v;
+  if (v === 'gamelist') {
+    document.getElementById('view-split').classList.add('hidden');
+    document.getElementById('view-street').classList.add('hidden');
+    document.getElementById('view-gamelist').classList.remove('hidden');
+    document.getElementById('btn-split').classList.remove('active');
+    document.getElementById('btn-street').classList.remove('active');
+    document.getElementById('btn-gl').classList.add('active');
+    gameIdx = 0;
+    renderGamelist();
+  } else {
+    setLayout(sysLayout);
+  }
+}
+
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('view-menu').classList.toggle('hidden', !menuOpen);
+  document.getElementById('btn-menu').classList.toggle('active', menuOpen);
+  if (menuOpen) renderMenu();
+}
+
+function toggleBezel() { document.getElementById('bezel').classList.toggle('plain'); }
+
+function moveSystem(delta) {
+  sysIdx = (sysIdx + delta + SYSTEMS.length) % SYSTEMS.length;
+  renderSystem(true);
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'm' || e.key === 'M') { toggleMenu(); return; }
+  if (menuOpen) {
+    if (e.key === 'ArrowDown') { menuIdx = (menuIdx + 1) % MENU_ITEMS.length; renderMenu(); }
+    else if (e.key === 'ArrowUp') { menuIdx = (menuIdx - 1 + MENU_ITEMS.length) % MENU_ITEMS.length; renderMenu(); }
+    else if (e.key === 'Escape' || e.key === 'Backspace') toggleMenu();
+    return;
+  }
+  if (currentView === 'system') {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') moveSystem(1);
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') moveSystem(-1);
+    else if (e.key === 'Enter' || e.key === ' ') setView('gamelist');
+  } else {
+    const len = SYSTEMS[sysIdx].games.length;
+    if (e.key === 'ArrowDown') { gameIdx = (gameIdx + 1) % len; renderGamelist(); }
+    else if (e.key === 'ArrowUp') { gameIdx = (gameIdx - 1 + len) % len; renderGamelist(); }
+    else if (e.key === 'Escape' || e.key === 'Backspace') setView('system');
+  }
+});
+
+setLayout('split');
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Wrench</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Need to tune your handheld? Welcome to the ArkOS Workshop — Wi-Fi, themes, and system tools live here.</text>
+    </text>
+  </view>
+</theme>

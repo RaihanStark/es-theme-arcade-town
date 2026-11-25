@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  es-theme-arcade-town
+  Cozy Pixel-Art RPG Town theme for ArkOS / EmulationStation (640x480 4:3 R36S)
+  Font: PeaberryBase (exact PortMaster Patching Shop font)
+  Supports two System View layouts selectable in ArkOS UI Settings:
+    - Split Directory (default): 6 systems visible on left + shop & dialogue on right
+    - Town Street: 3 shops visible side-by-side along a cozy street
+-->
+<theme>
+  <formatVersion>7</formatVersion>
+
+  <variables>
+    <bgCream>ECE8E1</bgCream>
+    <inkNavy>1E2448</inkNavy>
+    <inkMuted>4A527A</inkMuted>
+    <accentCoral>E86F7A</accentCoral>
+    <accentTeal>0097A7</accentTeal>
+    <accentGold>D99B38</accentGold>
+    <paperFill>EAE7F0</paperFill>
+    <fontMain>./_inc/fonts/PeaberryBase.ttf</fontMain>
+    <fontTitle>./_inc/fonts/PeaberryBase.ttf</fontTitle>
+  </variables>
+
+  <!-- ==================== MENU VIEW ==================== -->
+  <view name="menu">
+    <menuBackground name="menubg">
+      <path>./_inc/frames/menu_frame_9patch.png</path>
+      <cornerSize>16 16</cornerSize>
+      <color>FFFFFF</color>
+      <scrollbarColor>B7B5D8</scrollbarColor>
+    </menuBackground>
+
+    <menuGrid name="menugrid">
+      <separatorColor>D4D0E0</separatorColor>
+    </menuGrid>
+
+    <menuText name="menutitle">
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.036</fontSize>
+      <color>${inkNavy}</color>
+    </menuText>
+
+    <menuText name="menutext">
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.030</fontSize>
+      <color>${inkNavy}</color>
+      <selectedColor>FAF8F5</selectedColor>
+      <selectorColor>${accentCoral}</selectorColor>
+      <selectorColorEnd>${accentCoral}</selectorColorEnd>
+      <separatorColor>D4D0E0</separatorColor>
+    </menuText>
+
+    <menuText name="menugroup">
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.024</fontSize>
+      <color>${accentTeal}</color>
+      <separatorColor>B7B5D8</separatorColor>
+    </menuText>
+
+    <menuTextSmall name="menutextsmall">
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.024</fontSize>
+      <color>${inkMuted}</color>
+    </menuTextSmall>
+
+    <menuText name="menufooter">
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.028</fontSize>
+      <color>${inkMuted}</color>
+    </menuText>
+  </view>
+
+  <!-- ==================== SYSTEM VIEW: LAYOUT SUBSETS ==================== -->
+  <subset name="layout" displayName="System View Layout">
+    <include name="split" displayName="RPG Split Directory (Multi-System)">./systems/_layout_split.xml</include>
+    <include name="street" displayName="Town Street (3 Shops)">./systems/_layout_street.xml</include>
+  </subset>
+
+  <!-- ==================== GAMELIST VIEWS (DETAILED / VIDEO / BASIC) ==================== -->
+  <view name="detailed, video, basic">
+    <image name="background" extra="true">
+      <origin>0 0</origin>
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <path>./_inc/frames/bg_gamelist.png</path>
+      <linearSmooth>false</linearSmooth>
+      <zIndex>1</zIndex>
+    </image>
+
+    <text name="header_title" extra="true">
+      <text>${system.fullName} SHOP</text>
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.036</fontSize>
+      <color>${inkNavy}</color>
+      <pos>0.032 0.015</pos>
+      <size>0.75 0.05</size>
+      <alignment>left</alignment>
+      <forceUppercase>1</forceUppercase>
+      <zIndex>20</zIndex>
+    </text>
+
+    <textlist name="gamelist">
+      <pos>0.045 0.12</pos>
+      <size>0.448 0.535</size>
+      <origin>0 0</origin>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.032</fontSize>
+      <primaryColor>${inkNavy}</primaryColor>
+      <secondaryColor>${accentTeal}</secondaryColor>
+      <selectedColor>FAF8F5</selectedColor>
+      <selectorColor>${accentCoral}</selectorColor>
+      <selectorColorEnd>${accentCoral}</selectorColorEnd>
+      <selectorImagePath>./_inc/frames/selector.png</selectorImagePath>
+      <selectorHeight>0.060</selectorHeight>
+      <horizontalMargin>0.03</horizontalMargin>
+      <alignment>left</alignment>
+      <lineSpacing>1.45</lineSpacing>
+      <zIndex>20</zIndex>
+    </textlist>
+
+    <image name="md_image">
+      <origin>0.5 0.5</origin>
+      <pos>0.75 0.345</pos>
+      <maxSize>0.38 0.41</maxSize>
+      <linearSmooth>false</linearSmooth>
+      <zIndex>15</zIndex>
+    </image>
+
+    <video name="md_video">
+      <origin>0.5 0.5</origin>
+      <pos>0.75 0.345</pos>
+      <maxSize>0.38 0.41</maxSize>
+      <delay>1.0</delay>
+      <showSnapshotNoVideo>true</showSnapshotNoVideo>
+      <showSnapshotDelay>true</showSnapshotDelay>
+      <zIndex>16</zIndex>
+    </video>
+
+    <text name="md_genre">
+      <pos>0.60 0.59</pos>
+      <size>0.34 0.045</size>
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.025</fontSize>
+      <color>${inkMuted}</color>
+      <alignment>right</alignment>
+      <zIndex>20</zIndex>
+    </text>
+
+    <text name="md_description">
+      <pos>0.048 0.728</pos>
+      <size>0.90 0.165</size>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.031</fontSize>
+      <color>${inkNavy}</color>
+      <lineSpacing>1.16</lineSpacing>
+      <zIndex>20</zIndex>
+    </text>
+
+    <text name="md_lbl_rating, md_lbl_releasedate, md_lbl_developer, md_lbl_publisher, md_lbl_genre, md_lbl_players, md_lbl_lastplayed, md_lbl_playcount, md_developer, md_publisher, md_players, md_playcount">
+      <visible>false</visible>
+    </text>
+    <datetime name="md_releasedate, md_lastplayed">
+      <visible>false</visible>
+    </datetime>
+    <rating name="md_rating">
+      <visible>false</visible>
+    </rating>
+
+    <helpsystem name="help">
+      <pos>0.035 0.946</pos>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.027</fontSize>
+      <textColor>${inkNavy}</textColor>
+      <iconColor>${accentCoral}</iconColor>
+      <zIndex>25</zIndex>
+    </helpsystem>
+  </view>
+
+  <!-- Per-system RPG dialogue & shopkeeper overrides -->
+  <include>./systems/${system.theme}.xml</include>
+</theme>

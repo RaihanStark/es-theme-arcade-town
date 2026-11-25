@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Cybion</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Hello! Welcome to the PortMaster patching shop. Pick a native port from the shelf and press A to jump in!</text>
+    </text>
+  </view>
+</theme>

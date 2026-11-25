@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Story</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Cozy up with a good story! Welcome to the PyMO Visual Novel Reading Room.</text>
+    </text>
+  </view>
+</theme>

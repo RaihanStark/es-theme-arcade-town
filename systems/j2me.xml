@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>T9-Bot</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Flip phone classics preserved forever! Browse the J2ME Mobile Corner for bite-sized retro gems.</text>
+    </text>
+  </view>
+</theme>

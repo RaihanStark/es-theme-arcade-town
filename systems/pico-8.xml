@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Lex</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Tiny cartridges, huge charm! Welcome to the PICO-8 Fantasy Console stand — 128x128 pixels of pure indie joy.</text>
+    </text>
+  </view>
+</theme>

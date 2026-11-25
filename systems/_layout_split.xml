@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <image name="background" extra="true">
+      <origin>0 0</origin>
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <path>./_inc/frames/bg_system_split.png</path>
+      <linearSmooth>false</linearSmooth>
+      <zIndex>1</zIndex>
+    </image>
+
+    <text name="town_header" extra="true">
+      <text>ARCADE TOWN</text>
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.034</fontSize>
+      <color>${inkNavy}</color>
+      <pos>0.03 0.014</pos>
+      <size>0.65 0.05</size>
+      <alignment>left</alignment>
+      <zIndex>20</zIndex>
+    </text>
+
+    <!-- Left Vertical Multi-System Carousel -->
+    <carousel name="systemcarousel">
+      <type>vertical</type>
+      <pos>0.044 0.118</pos>
+      <size>0.295 0.77</size>
+      <origin>0 0</origin>
+      <color>00000000</color>
+      <logoScale>1.08</logoScale>
+      <logoSize>0.28 0.105</logoSize>
+      <maxLogoCount>6</maxLogoCount>
+      <zIndex>20</zIndex>
+    </carousel>
+
+    <text name="logoText">
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.032</fontSize>
+      <color>${inkNavy}</color>
+      <forceUppercase>1</forceUppercase>
+    </text>
+
+    <!-- Right Full-Height Active System Pixel-Art Shop sitting on the town sidewalk -->
+    <image name="shop_scene" extra="true">
+      <path>./art/shops/default.png</path>
+      <path>./art/shops/${system.theme}.png</path>
+      <origin>0.5 1</origin>
+      <pos>0.675 0.745</pos>
+      <maxSize>0.34 0.42</maxSize>
+      <linearSmooth>false</linearSmooth>
+      <zIndex>15</zIndex>
+    </image>
+
+    <!-- Clean Footer Strip inside Right Showcase -->
+    <text name="shop_footer_title" extra="true">
+      <text>${system.fullName}</text>
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.030</fontSize>
+      <color>${inkNavy}</color>
+      <pos>0.415 0.836</pos>
+      <size>0.36 0.05</size>
+      <alignment>left</alignment>
+      <forceUppercase>1</forceUppercase>
+      <zIndex>25</zIndex>
+    </text>
+
+    <text name="systemInfo">
+      <pos>0.66 0.840</pos>
+      <size>0.28 0.045</size>
+      <backgroundColor>00000000</backgroundColor>
+      <color>${accentTeal}</color>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.027</fontSize>
+      <alignment>right</alignment>
+      <zIndex>25</zIndex>
+    </text>
+
+    <!-- Hide dialogue overrides in clean split mode -->
+    <text name="shop_nameplate, shop_dialogue" extra="true">
+      <visible>false</visible>
+    </text>
+
+    <helpsystem name="help">
+      <pos>0.035 0.946</pos>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.027</fontSize>
+      <textColor>${inkNavy}</textColor>
+      <iconColor>${accentCoral}</iconColor>
+      <zIndex>25</zIndex>
+    </helpsystem>
+  </view>
+</theme>

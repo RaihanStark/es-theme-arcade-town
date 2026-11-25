@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Poly</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Welcome to the 64-Bit Arcade Loft! Grab a controller and dive into low-poly 3D worlds.</text>
+    </text>
+  </view>
+</theme>

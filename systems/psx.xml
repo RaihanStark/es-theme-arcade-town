@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>CD-Bot</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Spinning up the lasers! Welcome to the PSX Disc Emporium — crisp 32-bit RPGs and CRT classics await.</text>
+    </text>
+  </view>
+</theme>

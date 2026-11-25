@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <text name="shop_nameplate" extra="true">
+      <text>Pippin</text>
+    </text>
+    <text name="shop_dialogue" extra="true">
+      <text>Welcome to the GBA Cartridge Corner! Every 32-bit pocket classic is dusted, tested, and ready to play.</text>
+    </text>
+  </view>
+</theme>
