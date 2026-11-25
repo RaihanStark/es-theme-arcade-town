@@ -52,14 +52,10 @@ def build_system_bg():
     img = Image.new("RGBA", (640, 480), BG_CREAM)
     d = ImageDraw.Draw(img)
 
-    # Top compact status header bar
+    # Top compact status header bar (right side left clean for live Clock, Battery, Wi-Fi!)
     d.rectangle([0, 0, 640, 36], fill=PAPER)
     d.rectangle([0, 34, 640, 36], fill=NAVY)
     d.rectangle([0, 36, 640, 39], fill=LAVENDER)
-    for idx, col in enumerate([CORAL, GOLD, TEAL, BLUE]):
-        cx = 562 + idx * 16
-        d.rectangle([cx, 12, cx + 10, 22], fill=NAVY)
-        d.rectangle([cx + 2, 14, cx + 8, 20], fill=col)
 
     # Left: Vertical System Directory RPG box (x=18..228, y=46..438 — leaves clean 42px bottom strip for footer!)
     draw_rpg_box(d, 18, 46, 228, 438, fill=PAPER)
@@ -129,15 +125,10 @@ def build_gamelist_bg():
     img = Image.new("RGBA", (640, 480), BG_CREAM)
     d = ImageDraw.Draw(img)
 
-    # Top header banner bar
-    d.rectangle([0, 0, 640, 38], fill=PAPER)
-    d.rectangle([0, 36, 640, 38], fill=NAVY)
-    d.rectangle([0, 38, 640, 41], fill=LAVENDER)
-    # Decorative colored pixel dots on top-right
-    for idx, col in enumerate([CORAL, GOLD, TEAL, BLUE]):
-        cx = 562 + idx * 16
-        d.rectangle([cx, 13, cx + 10, 23], fill=NAVY)
-        d.rectangle([cx + 2, 15, cx + 8, 21], fill=col)
+    # Top header banner bar (exact same 36px height as home/system view!)
+    d.rectangle([0, 0, 640, 36], fill=PAPER)
+    d.rectangle([0, 34, 640, 36], fill=NAVY)
+    d.rectangle([0, 36, 640, 39], fill=LAVENDER)
 
     # Left gamelist RPG box (leaves clean bottom strip for footer)
     draw_rpg_box(d, 18, 46, 326, 326, fill=PAPER)
@@ -310,10 +301,58 @@ def process_raw_shops():
         print(f"Processed {out_path.name} ({nw}x{nh})")
 
 
+def build_status_icons():
+    """Generate razor-sharp pixel-grid SVG icons for Battery (6 states) and Wi-Fi."""
+    def write_battery_svg(path: Path, bars: int, charging: bool = False):
+        # Clean 20x12 pixel grid, crisp rounded-pixel corners
+        rects = [
+            # Outer casing (top, bottom, left, right)
+            (1, 1, 15, 2),
+            (1, 9, 15, 2),
+            (0, 2, 2, 8),
+            (15, 2, 2, 8),
+            # Positive terminal nub
+            (17, 4, 2, 4),
+        ]
+        if charging:
+            # Crisp pixel lightning bolt
+            rects += [(9, 3, 2, 2), (7, 5, 5, 2), (7, 7, 2, 2)]
+        else:
+            # Up to 3 chunky charge bars (3px wide, 1px gap)
+            for i in range(bars):
+                rects.append((3 + i * 4, 4, 3, 4))
+        body = "\n".join(f'  <rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#FFFFFF"/>' for x, y, w, h in rects)
+        svg = f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 12" shape-rendering="crispEdges">\n{body}\n</svg>\n'
+        path.write_text(svg, encoding="utf-8")
+
+    write_battery_svg(ICONS / "battery_full.svg", 3)
+    write_battery_svg(ICONS / "battery_75.svg", 3)
+    write_battery_svg(ICONS / "battery_50.svg", 2)
+    write_battery_svg(ICONS / "battery_25.svg", 1)
+    write_battery_svg(ICONS / "battery_empty.svg", 0)
+    write_battery_svg(ICONS / "battery_charging.svg", 0, charging=True)
+
+    # Clean 16x12 pixel-stepped Wi-Fi arcs + dot
+    wifi_rects = [
+        # Outer arc
+        (3, 1, 10, 2), (1, 2, 2, 2), (13, 2, 2, 2),
+        # Middle arc
+        (5, 5, 6, 2), (3, 6, 2, 2), (11, 6, 2, 2),
+        # Center dot
+        (7, 9, 2, 2),
+    ]
+    wbody = "\n".join(f'  <rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#FFFFFF"/>' for x, y, w, h in wifi_rects)
+    (ICONS / "wifi.svg").write_text(
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 12" shape-rendering="crispEdges">\n{wbody}\n</svg>\n',
+        encoding="utf-8",
+    )
+
+
 if __name__ == "__main__":
     build_system_bg()
     build_gamelist_bg()
     build_selector_and_menu()
     build_portraits()
+    build_status_icons()
     process_raw_shops()
     print("All UI assets generated successfully!")

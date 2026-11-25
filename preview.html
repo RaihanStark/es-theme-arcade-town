@@ -633,7 +633,7 @@ function renderSystem(animate = false) {
 
 function renderGamelist() {
   const s = SYSTEMS[sysIdx];
-  document.getElementById('gl-header').textContent = `${s.fullName} SHOP`;
+  document.getElementById('gl-header').textContent = s.fullName;
   const list = document.getElementById('gl-list');
   list.innerHTML = '';
   s.games.forEach((g, idx) => {

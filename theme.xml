@@ -22,6 +22,36 @@
     <fontTitle>./_inc/fonts/PeaberryBase.ttf</fontTitle>
   </variables>
 
+  <!-- ==================== SCREEN OVERLAY (CLOCK, BATTERY, WI-FI) ==================== -->
+  <view name="screen">
+    <text name="clock">
+      <origin>1 0.5</origin>
+      <pos>0.975 0.030</pos>
+      <size>0.16 0.05</size>
+      <fontPath>${fontTitle}</fontPath>
+      <fontSize>0.028</fontSize>
+      <color>${inkNavy}</color>
+      <alignment>right</alignment>
+      <zIndex>200</zIndex>
+    </text>
+
+    <batteryIndicator name="batteryIndicator">
+      <pos>0.644 0.015</pos>
+      <size>0.250 0.035</size>
+      <horizontalAlignment>right</horizontalAlignment>
+      <color>${inkNavy}</color>
+      <itemSpacing>0.03</itemSpacing>
+      <full>./_inc/icons/battery_full.svg</full>
+      <at75>./_inc/icons/battery_75.svg</at75>
+      <at50>./_inc/icons/battery_50.svg</at50>
+      <at25>./_inc/icons/battery_25.svg</at25>
+      <empty>./_inc/icons/battery_empty.svg</empty>
+      <incharge>./_inc/icons/battery_charging.svg</incharge>
+      <networkIcon>./_inc/icons/wifi.svg</networkIcon>
+      <zIndex>200</zIndex>
+    </batteryIndicator>
+  </view>
+
   <!-- ==================== MENU VIEW ==================== -->
   <view name="menu">
     <menuBackground name="menubg">
@@ -89,12 +119,12 @@
     </image>
 
     <text name="header_title" extra="true">
-      <text>${system.fullName} SHOP</text>
+      <text>${system.fullName}</text>
       <fontPath>${fontTitle}</fontPath>
-      <fontSize>0.036</fontSize>
+      <fontSize>0.034</fontSize>
       <color>${inkNavy}</color>
-      <pos>0.032 0.015</pos>
-      <size>0.75 0.05</size>
+      <pos>0.03 0.014</pos>
+      <size>0.65 0.05</size>
       <alignment>left</alignment>
       <forceUppercase>1</forceUppercase>
       <zIndex>20</zIndex>
@@ -102,7 +132,7 @@
 
     <textlist name="gamelist">
       <pos>0.045 0.12</pos>
-      <size>0.448 0.535</size>
+      <size>0.448 0.50</size>
       <origin>0 0</origin>
       <fontPath>${fontMain}</fontPath>
       <fontSize>0.032</fontSize>
