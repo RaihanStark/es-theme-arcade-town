@@ -24,6 +24,7 @@
       <margin>0.012 0.012</margin>
       <padding>0.008 0.008 0.008 0.008</padding>
       <animateSelection>false</animateSelection>
+      <scrollSound>./_inc/sounds/scroll.wav</scrollSound>
       <zIndex>20</zIndex>
     </imagegrid>
 

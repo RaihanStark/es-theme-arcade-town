@@ -5,17 +5,21 @@ for es-theme-arcade-town (native 640x480 R36S resolution).
 Also post-processes any generated *_raw.png shop illustrations into crisp
 640x320 transparent/matched pixel-art shop cards.
 """
+import math
 import os
+import struct
+import wave
 from pathlib import Path
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).parent
 FRAMES = ROOT / "_inc" / "frames"
 PORTRAITS = ROOT / "_inc" / "portraits"
 ICONS = ROOT / "_inc" / "icons"
+SOUNDS = ROOT / "_inc" / "sounds"
 SHOPS = ROOT / "art" / "shops"
 
-for d in (FRAMES, PORTRAITS, ICONS, SHOPS):
+for d in (FRAMES, PORTRAITS, ICONS, SOUNDS, SHOPS):
     d.mkdir(parents=True, exist_ok=True)
 
 # Exact PortMaster Patching Shop inspired palette
@@ -375,11 +379,157 @@ def build_status_icons():
     )
 
 
+def build_splash_and_boot_screens():
+    """Generate ES Loading Splash (splash_bg.png) and ArkOS Boot Logo (logo.bmp)."""
+    extras_boot = ROOT / "extras" / "arkos-boot"
+    extras_boot.mkdir(parents=True, exist_ok=True)
+
+    font_path = ROOT / "_inc" / "fonts" / "PeaberryBase.ttf"
+    f_title = ImageFont.truetype(str(font_path), 28)
+    f_sub = ImageFont.truetype(str(font_path), 16)
+
+    backdrop_path = ROOT / "art" / "town_backdrop_raw.jpg"
+    shop_path = SHOPS / "default.png"
+
+    def draw_town_card(img: Image.Image, x0: int, y0: int, x1: int, y1: int, shop_h: int = 195):
+        d = ImageDraw.Draw(img)
+        draw_rpg_box(d, x0, y0, x1, y1, fill=BG_CREAM)
+        iw, ih = (x1 - 7) - (x0 + 7), (y1 - 7) - (y0 + 7)
+        if backdrop_path.exists():
+            bd = Image.open(backdrop_path).convert("RGBA")
+            bd = bd.resize((iw, ih), Image.Resampling.LANCZOS)
+            img.paste(bd, (x0 + 7, y0 + 7))
+        if shop_path.exists():
+            sh = Image.open(shop_path).convert("RGBA")
+            sh.thumbnail((shop_h + 20, shop_h), Image.Resampling.LANCZOS)
+            sw, shh = sh.size
+            sx = x0 + 7 + (iw - sw) // 2
+            sy = y0 + 7 + int(ih * 0.885) - shh
+            img.paste(sh, (sx, sy), sh)
+        return ImageDraw.Draw(img)
+
+    # 1) ES Loading Splash (_inc/frames/splash_bg.png)
+    sp = Image.new("RGBA", (640, 480), BG_CREAM)
+    ds = draw_town_card(sp, 64, 24, 576, 344, shop_h=190)
+    draw_rpg_box(ds, 198, 38, 442, 86, fill=PAPER)
+    bbox = ds.textbbox((0, 0), "ARCADE TOWN", font=f_title)
+    tw = bbox[2] - bbox[0]
+    ds.text((320 - tw // 2, 50), "ARCADE TOWN", font=f_title, fill=NAVY)
+    ds.rectangle([137, 404, 503, 428], fill=NAVY)
+    ds.rectangle([139, 406, 501, 426], fill=LAVENDER)
+    ds.rectangle([141, 408, 499, 424], fill=PAPER)
+    sp.save(FRAMES / "splash_bg.png")
+
+    # 2) Clean Iconic Boot Logo (extras/arkos-boot/logo.bmp — 640x480 24-bit RGB BMP, zero ArkOS/R36S text!)
+    boot = Image.new("RGBA", (640, 480), BG_CREAM)
+    emblem_path = ROOT / "art" / "boot_emblem_raw.jpg"
+    if emblem_path.exists():
+        em = Image.open(emblem_path).convert("RGBA")
+        # Flood-fill remove near-cream outer background so it blends seamlessly with exact #ECE8E1
+        from collections import deque
+        ew, eh = em.size
+        epx = em.load()
+        bg_r, bg_g, bg_b = epx[4, 4][:3]
+        visited = bytearray(ew * eh)
+        q = deque([(0, 0), (ew - 1, 0), (0, eh - 1), (ew - 1, eh - 1)])
+        for sx, sy in list(q):
+            visited[sy * ew + sx] = 1
+        while q:
+            x, y = q.popleft()
+            r, g, b, _ = epx[x, y]
+            if abs(r - bg_r) < 26 and abs(g - bg_g) < 26 and abs(b - bg_b) < 26:
+                epx[x, y] = (0, 0, 0, 0)
+                for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                    if 0 <= nx < ew and 0 <= ny < eh and not visited[ny * ew + nx]:
+                        visited[ny * ew + nx] = 1
+                        q.append((nx, ny))
+        bbox = em.getbbox()
+        if bbox:
+            em = em.crop(bbox)
+        em.thumbnail((270, 270), Image.Resampling.LANCZOS)
+        nw, nh = em.size
+        boot.paste(em, ((640 - nw) // 2, 74 + (270 - nh) // 2), em)
+    db = ImageDraw.Draw(boot)
+    f_boot = ImageFont.truetype(str(font_path), 30)
+    bt = "ARCADE TOWN"
+    tb = db.textbbox((0, 0), bt, font=f_boot)
+    db.text((320 - (tb[2] - tb[0]) // 2, 372), bt, font=f_boot, fill=NAVY)
+    boot.convert("RGB").save(extras_boot / "logo.bmp", format="BMP")
+
+
+def build_ui_sounds():
+    """Synthesize cozy, warm 16-bit RPG UI sound effects (scroll, select, back, launch)."""
+    SR = 44100
+
+    def tri(phase: float) -> float:
+        p = (phase / (2.0 * math.pi)) % 1.0
+        return 4.0 * abs(p - 0.5) - 1.0
+
+    def write_wav(path: Path, samples: list[float]):
+        with wave.open(str(path), "w") as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)
+            wf.setframerate(SR)
+            raw = bytearray()
+            for s in samples:
+                v = max(-1.0, min(1.0, s))
+                raw += struct.pack("<h", int(v * 32767))
+            wf.writeframes(bytes(raw))
+
+    def render_notes(notes: list[tuple[float, float, float, float]]) -> list[float]:
+        """notes: list of (start_sec, dur_sec, freq_hz, vol)"""
+        total_sec = max(s + d for s, d, _, _ in notes) + 0.02
+        buf = [0.0] * int(total_sec * SR)
+        for start, dur, freq, vol in notes:
+            i0 = int(start * SR)
+            n = int(dur * SR)
+            for i in range(n):
+                t = i / SR
+                # Smooth click-free attack + warm exponential decay
+                att = min(1.0, t / 0.004)
+                dec = math.exp(-5.5 * (t / dur))
+                env = att * dec
+                ph = 2.0 * math.pi * freq * t
+                # Warm blend of sine + soft triangle
+                sig = 0.65 * math.sin(ph) + 0.35 * tri(ph)
+                if i0 + i < len(buf):
+                    buf[i0 + i] += sig * env * vol
+        return buf
+
+    # 1) scroll.wav — gentle, crisp tactile pixel tick (E5 -> G5 micro-blip)
+    write_wav(SOUNDS / "scroll.wav", render_notes([
+        (0.000, 0.028, 659.25, 0.22),
+        (0.012, 0.028, 783.99, 0.16),
+    ]))
+
+    # 2) select.wav — warm 2-note RPG confirm / menu open (C5 -> G5)
+    write_wav(SOUNDS / "select.wav", render_notes([
+        (0.000, 0.055, 523.25, 0.26),
+        (0.042, 0.080, 783.99, 0.24),
+    ]))
+
+    # 3) back.wav — soft descending RPG cancel (G5 -> D5)
+    write_wav(SOUNDS / "back.wav", render_notes([
+        (0.000, 0.050, 783.99, 0.22),
+        (0.038, 0.075, 587.33, 0.20),
+    ]))
+
+    # 4) launch.wav — cheerful 16-bit handheld startup arpeggio (C5 -> E5 -> G5 -> C6)
+    write_wav(SOUNDS / "launch.wav", render_notes([
+        (0.000, 0.085, 523.25, 0.24),
+        (0.055, 0.085, 659.25, 0.24),
+        (0.110, 0.095, 783.99, 0.24),
+        (0.165, 0.180, 1046.50, 0.28),
+    ]))
+
+
 if __name__ == "__main__":
     build_system_bg()
     build_gamelist_bg()
     build_selector_and_menu()
     build_portraits()
     build_status_icons()
+    build_ui_sounds()
     process_raw_shops()
+    build_splash_and_boot_screens()
     print("All UI assets generated successfully!")

@@ -22,6 +22,44 @@
     <fontTitle>./_inc/fonts/PeaberryBase.ttf</fontTitle>
   </variables>
 
+  <!-- ==================== SPLASH / LOADING VIEW ==================== -->
+  <view name="splash">
+    <splash name="splash">
+      <backgroundColor>${bgCream}</backgroundColor>
+    </splash>
+
+    <image name="background">
+      <path>./_inc/frames/splash_bg.png</path>
+      <origin>0 0</origin>
+      <pos>0 0</pos>
+      <size>1 1</size>
+      <linearSmooth>false</linearSmooth>
+    </image>
+
+    <text name="label">
+      <pos>0 0.775</pos>
+      <size>1 0.055</size>
+      <fontPath>${fontMain}</fontPath>
+      <fontSize>0.030</fontSize>
+      <color>${inkNavy}</color>
+      <alignment>center</alignment>
+    </text>
+
+    <image name="progressbar">
+      <pos>0.22 0.85</pos>
+      <size>0.56 0.034</size>
+      <color>EAE7F0</color>
+      <colorEnd>EAE7F0</colorEnd>
+    </image>
+
+    <image name="progressbar:active">
+      <pos>0.22 0.85</pos>
+      <size>0.56 0.034</size>
+      <color>${accentCoral}</color>
+      <colorEnd>F29FA3</colorEnd>
+    </image>
+  </view>
+
   <!-- ==================== SCREEN OVERLAY (CLOCK, BATTERY, WI-FI) ==================== -->
   <view name="screen">
     <text name="clock">
@@ -156,8 +194,19 @@
       <horizontalMargin>0.03</horizontalMargin>
       <alignment>left</alignment>
       <lineSpacing>1.45</lineSpacing>
+      <scrollSound>./_inc/sounds/scroll.wav</scrollSound>
       <zIndex>20</zIndex>
     </textlist>
+
+    <sound name="launch">
+      <path>./_inc/sounds/launch.wav</path>
+    </sound>
+    <sound name="back">
+      <path>./_inc/sounds/back.wav</path>
+    </sound>
+    <sound name="menuOpen">
+      <path>./_inc/sounds/select.wav</path>
+    </sound>
 
     <image name="md_image">
       <origin>0.5 0.5</origin>

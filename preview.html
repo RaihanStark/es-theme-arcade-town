@@ -402,6 +402,10 @@
     <span class="sep"></span>
     <button id="btn-gl" onclick="setView('gamelist')">Gamelist</button>
     <button id="btn-menu" onclick="toggleMenu()">ES Menu</button>
+    <span class="sep"></span>
+    <button id="btn-splash" onclick="setView('splash')">ES Splash</button>
+    <button id="btn-boot" onclick="setView('boot')">Boot Logo</button>
+    <span class="sep"></span>
     <button onclick="toggleBezel()">Bezel</button>
     <span class="sep"></span>
     <span><span class="kbd">↑↓ / ←→</span> Browse</span>
@@ -440,6 +444,20 @@
         <div id="gl-art-box"></div>
         <div id="gl-genre">ACTION / PORT</div>
         <div id="gl-desc"></div>
+      </div>
+
+      <!-- ES LOADING SPLASH PREVIEW -->
+      <div class="layer hidden" id="view-splash">
+        <img src="/_inc/frames/splash_bg.png" style="width:640px;height:480px;image-rendering:pixelated;" alt="splash" />
+        <div id="splash-label" style="position:absolute;left:0;top:372px;width:640px;text-align:center;font-size:15px;color:#1E2448;">Loading systems...</div>
+        <div style="position:absolute;left:141px;top:408px;width:358px;height:16px;background:#EAE7F0;overflow:hidden;">
+          <div id="splash-bar" style="width:0%;height:100%;background:linear-gradient(90deg,#E86F7A,#F29FA3);transition:width 0.25s linear;"></div>
+        </div>
+      </div>
+
+      <!-- ARKOS BOOT LOGO PREVIEW -->
+      <div class="layer hidden" id="view-boot">
+        <img src="/extras/arkos-boot/logo.bmp" style="width:640px;height:480px;image-rendering:pixelated;" alt="boot" />
       </div>
 
       <!-- FULLSCREEN MENU OVERLAY -->
@@ -653,32 +671,55 @@ function renderGamelist() {
   `;
 }
 
+let splashTimer = null;
+function startSplashAnim() {
+  if (splashTimer) clearInterval(splashTimer);
+  const steps = [
+    [15, 'Loading configuration...'],
+    [40, 'Loading systems (9)...'],
+    [70, 'Loading es-theme-arcade-town...'],
+    [100, 'Welcome to Arcade Town!'],
+  ];
+  let idx = 0;
+  const bar = document.getElementById('splash-bar');
+  const lbl = document.getElementById('splash-label');
+  const tick = () => {
+    bar.style.width = steps[idx][0] + '%';
+    lbl.textContent = steps[idx][1];
+    idx = (idx + 1) % steps.length;
+  };
+  tick();
+  splashTimer = setInterval(tick, 900);
+}
+
 function setLayout(l) {
+  if (splashTimer) { clearInterval(splashTimer); splashTimer = null; }
   sysLayout = l;
   currentView = 'system';
-  document.getElementById('view-split').classList.toggle('hidden', l !== 'split');
-  document.getElementById('view-street').classList.toggle('hidden', l !== 'street');
-  document.getElementById('view-gamelist').classList.add('hidden');
-  document.getElementById('btn-split').classList.toggle('active', l === 'split');
-  document.getElementById('btn-street').classList.toggle('active', l === 'street');
-  document.getElementById('btn-gl').classList.remove('active');
+  ['view-split', 'view-street', 'view-gamelist', 'view-splash', 'view-boot'].forEach(id => {
+    document.getElementById(id).classList.toggle('hidden', id !== 'view-' + l);
+  });
+  ['btn-split', 'btn-street', 'btn-gl', 'btn-splash', 'btn-boot'].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+  document.getElementById('btn-' + l).classList.add('active');
   renderSystem(false);
 }
 
 function setView(v) {
+  if (splashTimer) { clearInterval(splashTimer); splashTimer = null; }
   currentView = v;
-  if (v === 'gamelist') {
-    document.getElementById('view-split').classList.add('hidden');
-    document.getElementById('view-street').classList.add('hidden');
-    document.getElementById('view-gamelist').classList.remove('hidden');
-    document.getElementById('btn-split').classList.remove('active');
-    document.getElementById('btn-street').classList.remove('active');
-    document.getElementById('btn-gl').classList.add('active');
-    gameIdx = 0;
-    renderGamelist();
-  } else {
-    setLayout(sysLayout);
-  }
+  if (v === 'system') { setLayout(sysLayout); return; }
+  ['view-split', 'view-street', 'view-gamelist', 'view-splash', 'view-boot'].forEach(id => {
+    document.getElementById(id).classList.toggle('hidden', id !== 'view-' + v);
+  });
+  ['btn-split', 'btn-street', 'btn-gl', 'btn-splash', 'btn-boot'].forEach(id => {
+    document.getElementById(id).classList.remove('active');
+  });
+  const btnMap = { gamelist: 'btn-gl', splash: 'btn-splash', boot: 'btn-boot' };
+  if (btnMap[v]) document.getElementById(btnMap[v]).classList.add('active');
+  if (v === 'gamelist') { gameIdx = 0; renderGamelist(); }
+  if (v === 'splash') startSplashAnim();
 }
 
 function toggleMenu() {

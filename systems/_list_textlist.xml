@@ -24,6 +24,7 @@
       <alignment>left</alignment>
       <lineSpacing>1.55</lineSpacing>
       <forceUppercase>1</forceUppercase>
+      <scrollSound>./_inc/sounds/scroll.wav</scrollSound>
       <zIndex>20</zIndex>
     </textlist>
   </view>

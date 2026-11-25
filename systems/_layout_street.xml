@@ -21,6 +21,7 @@
       <logoScale>1.32</logoScale>
       <logoSize>0.34 0.42</logoSize>
       <maxLogoCount>3</maxLogoCount>
+      <scrollSound>./_inc/sounds/scroll.wav</scrollSound>
       <zIndex>10</zIndex>
     </carousel>
 
