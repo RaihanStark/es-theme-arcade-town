@@ -50,6 +50,10 @@
       <networkIcon>./_inc/icons/wifi.svg</networkIcon>
       <zIndex>200</zIndex>
     </batteryIndicator>
+
+    <controllerActivity name="controllerActivity">
+      <visible>false</visible>
+    </controllerActivity>
   </view>
 
   <!-- ==================== MENU VIEW ==================== -->
