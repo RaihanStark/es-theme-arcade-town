@@ -14,5 +14,6 @@
     <logoUnselected>4A527A</logoUnselected>
     <logoSelected>1E2448</logoSelected>
     <frameDir>./_inc/frames</frameDir>
+    <logoBoxDir>./_inc/logobox</logoBoxDir>
   </variables>
 </theme>

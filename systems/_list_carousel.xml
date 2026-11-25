@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <view name="system">
+    <!-- Coral highlight plate behind the selected (enlarged) boxed logo -->
+    <image name="list_selector_bg" extra="true">
+      <visible>true</visible>
+      <path>${frameDir}/carousel_sel.png</path>
+      <origin>0.5 0.5</origin>
+      <pos>0.192 0.503</pos>
+      <size>0.3212 0.1259</size>
+      <linearSmooth>false</linearSmooth>
+      <zIndex>12</zIndex>
+    </image>
+
+    <!-- Pre-rendered boxed logos (frame + tinted system logo) shown by the vertical carousel -->
+    <image name="logo">
+      <path>${logoBoxDir}/_default.png</path>
+      <path>${logoBoxDir}/${system.theme}.png</path>
+    </image>
+  </view>
+</theme>

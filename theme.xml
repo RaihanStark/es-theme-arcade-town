@@ -3,9 +3,7 @@
   es-theme-arcade-town
   Cozy Pixel-Art RPG Town theme for ArkOS / EmulationStation (640x480 4:3 R36S)
   Font: PeaberryBase (exact PortMaster Patching Shop font)
-  Supports two System View layouts selectable in ArkOS UI Settings:
-    - Split Directory (default): 6 systems visible on left + shop & dialogue on right
-    - Town Street: 3 shops visible side-by-side along a cozy street
+  System View layout: Split Directory (6 systems visible on left + shop & dialogue on right)
 -->
 <theme>
   <formatVersion>7</formatVersion>
@@ -173,14 +171,10 @@
     </sound>
   </view>
 
-  <subset name="layout" displayName="System View Layout">
-    <include name="split" displayName="RPG Split Directory (Multi-System)">./systems/_layout_split.xml</include>
-    <include name="street" displayName="Town Street (3 Shops)">./systems/_layout_street.xml</include>
-  </subset>
+  <include>./systems/_layout_split.xml</include>
 
   <subset name="liststyle" displayName="Left Console List Style">
-    <include name="coral" displayName="Coral RPG Bar (Carousel)">./systems/_list_coral.xml</include>
-    <include name="grid" displayName="2x4 Pixel Badge Grid">./systems/_list_grid.xml</include>
+    <include name="carousel" displayName="Boxed Logo Carousel">./systems/_list_carousel.xml</include>
     <include name="textlist" displayName="Classic RPG Menu List">./systems/_list_textlist.xml</include>
   </subset>
 
