@@ -1,19 +1,24 @@
 # es-theme-arcade-town
 
-A cozy pixel-art RPG town frontend theme for **ArkOS / EmulationStation** (designed for the **R36S 640×480 4:3** screen).
+A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation** (designed for 640×480 4:3 handhelds).
 
-## Live Preview on Arch Linux
+## Features
+- **Peaberry Base** pixel typography & warm cream/navy/coral retro palette
+- **Dynamic Theme Configuration** (`Start → UI Settings → Theme Configuration`):
+  - **System View Layout:** RPG Split Directory (default) or Town Street (3 Shops)
+  - **Left Console List Style:** Coral RPG Bar (default), 2×4 Original Console Logo Grid, or Classic RPG Menu List
+- **Status Bar:** Live clock + crisp pixel-grid SVG Wi-Fi & Battery icons
+- **Audio:** Custom 16-bit RPG UI sound effects + CC0 8-bit chiptune BGM
+- **Splash & Boot Logo:** Matching ES loading splash (`<view name="splash">`) + minimal iconic `extras/arkos-boot/logo.bmp`
+
+## Local Preview (Batocera EmulationStation)
 
 ```bash
-cd ~/Projects/es-theme-arcade-town
-python3 preview.py
+./run_es_preview.sh
 ```
 
-- **Up / Down or Left / Right**: Switch between system shops
-- **Enter**: Open the shop's gamelist
-- **Esc**: Go back to System View
-- **M**: Preview EmulationStation Main Menu
+## Installing to R36S (ArkOS)
 
-## Installing to R36S (Later, when you're ready)
-
-Copy this folder (without `preview.py`, `preview.html`, `build_assets.py`, and `*_raw.*`) to your SD card's `EASYROMS/themes/es-theme-arcade-town/` directory, then select it in ArkOS under **Start → UI Settings → Theme Set**.
+1. Copy `theme.xml`, `systems/`, `_inc/`, and `art/shops/*.png` to `EASYROMS/themes/es-theme-arcade-town/`.
+2. *(Optional)* Back up `BOOT/logo.bmp` and copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
+3. In ArkOS, select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
