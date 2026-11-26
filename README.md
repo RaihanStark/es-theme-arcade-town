@@ -27,18 +27,27 @@ A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation-f
 - **Resolution:** 640×480 (4:3)
 - **Tested on:** R36S running **ArkOS** (`EmulationStation-fcamod` v2.13.0.0) and **Batocera EmulationStation**
 
-## Installation (ArkOS / R36S)
+## Clean Installation (ArkOS / R36S)
 
-### Option 1: Copy via SD Card
-1. Copy `theme.xml`, `systems/`, `_inc/`, and `art/` to `EASYROMS/themes/es-theme-arcade-town/`.
-2. *(Optional)* Back up `BOOT/logo.bmp` and copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
-3. On your handheld, select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
+### Option 1: Download & Copy to SD Card (First-Time Install)
+1. Download the repository ZIP (or latest release) and extract it on your computer.
+2. Insert your ArkOS SD card and open the `EASYROMS` partition.
+3. Create the folder `EASYROMS/themes/es-theme-arcade-town/` *(if updating from an older version, delete the old folder first for a clean install)*.
+4. Copy these **required** files and folders from the extracted repo into `EASYROMS/themes/es-theme-arcade-town/`:
+   - `theme.xml`
+   - `systems/`
+   - `_inc/`
+   - `art/`
+   *(You do **not** need to copy `screenshots/`, `extras/`, `README.md`, `LICENSE`, `ART_STYLE_PROMPTS.md`, or `run_es_preview.sh` to `themes/`.)*
+5. *(Optional — ArkOS Boot Logo)* Open the `BOOT` partition, back up the existing `BOOT/logo.bmp` (e.g. rename it to `logo.bmp.bak`), then copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
+6. Safely eject the SD card, boot your handheld, and select **es-theme-arcade-town** under **Start → UI Settings → Theme Set** (press **B** / **A** to apply, then restart EmulationStation if prompted).
 
-### Option 2: Git Clone on Device
+### Option 2: Git Clone on Device (via SSH / Terminal)
 ```bash
-cd /roms/themes
-git clone https://github.com/actuallyraihan/es-theme-arcade-town-fcamod.git es-theme-arcade-town
+rm -rf /roms/themes/es-theme-arcade-town
+git clone https://github.com/actuallyraihan/es-theme-arcade-town-fcamod.git /roms/themes/es-theme-arcade-town
 ```
+Then select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
 
 ## Theme Configuration
 
