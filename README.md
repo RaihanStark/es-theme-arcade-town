@@ -1,23 +1,73 @@
 # es-theme-arcade-town
 
-A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation** (designed for 640×480 4:3 handhelds).
+A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation-fcamod**, designed natively for **640×480 (4:3)** handhelds such as the **R36S**.
+
+## Screenshots
+
+| System View (Daylight Cream) | System View (Midnight Arcade) |
+| :---: | :---: |
+| ![System View - Day](screenshots/system_day.png) | ![System View - Night](screenshots/system_night.png) |
+
+| Gamelist View (Detailed) |
+| :---: |
+| ![Gamelist View - Day](screenshots/gamelist_day.png) |
 
 ## Features
-- **Peaberry Base** pixel typography & warm cream/navy/coral retro palette
-- **Dynamic Theme Configuration** (`Start → UI Settings → Theme Configuration`):
-  - **Left Console List Style:** Boxed Logo Carousel (default) or Classic RPG Menu List
-- **Status Bar:** Live clock + crisp pixel-grid SVG Wi-Fi & Battery icons
-- **Audio:** Custom 16-bit RPG UI sound effects + CC0 8-bit chiptune BGM
-- **Splash & Boot Logo:** Matching ES loading splash (`<view name="splash">`) + minimal iconic `extras/arkos-boot/logo.bmp`
 
-## Local Preview (Batocera EmulationStation)
+- **Custom Pixel-Art Town Shops:** Dedicated storefronts for `snes` / `sfc`, `nes` / `famicom` / `fds`, `gb`, `gbc`, `gba`, `nds`, `n64`, `psx`, `ports`, plus a cozy `default.png` arcade shop fallback.
+- **Day & Night Color Schemes:** Switch between **Daylight Cream** and **Midnight Arcade (Dark)** under **Start → UI Settings → Theme Configuration**.
+- **2 Left-Pane List Styles:**
+  - **Boxed Logo Carousel** *(default)* — 6-slot vertical carousel with pre-rendered system boxes and a gold-trimmed RPG selector frame.
+  - **Classic RPG Menu List** — Clean text-only menu list matching the gamelist view.
+- **Retro Typography & UI:** **Peaberry Base** pixel font, warm cream/navy/gold/coral palette, custom 16-bit RPG UI sound effects (`_inc/sounds/`), and 8-bit chiptune BGM (`_inc/music/02_Adventure_8bit.ogg`).
+- **Splash & Boot Logo:** Matching EmulationStation loading splash (`<view name="splash">`) and optional ArkOS boot logo (`extras/arkos-boot/logo.bmp`).
+
+## Compatibility
+
+- **Resolution:** 640×480 (4:3)
+- **Tested on:** R36S running **ArkOS** (`EmulationStation-fcamod` v2.13.0.0) and **Batocera EmulationStation**
+
+## Installation (ArkOS / R36S)
+
+### Option 1: Copy via SD Card
+1. Copy `theme.xml`, `systems/`, `_inc/`, and `art/` to `EASYROMS/themes/es-theme-arcade-town/`.
+2. *(Optional)* Back up `BOOT/logo.bmp` and copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
+3. On your handheld, select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
+
+### Option 2: Git Clone on Device
+```bash
+cd /roms/themes
+git clone https://github.com/actuallyraihan/es-theme-arcade-town-fcamod.git es-theme-arcade-town
+```
+
+## Theme Configuration
+
+Open **Start → UI Settings → Theme Configuration**:
+- **Color Scheme:** `Daylight Cream` *(default)* | `Midnight Arcade (Dark)`
+- **Left Console List Style:** `Boxed Logo Carousel` *(default)* | `Classic RPG Menu List`
+
+## Local Preview & Contributing
+
+To preview the theme locally on Linux using EmulationStation:
 
 ```bash
 ./run_es_preview.sh
 ```
 
-## Installing to R36S (ArkOS)
+You can also point `ES_BIN` to a custom EmulationStation binary:
 
-1. Copy `theme.xml`, `systems/`, `_inc/`, and `art/shops/*.png` to `EASYROMS/themes/es-theme-arcade-town/`.
-2. *(Optional)* Back up `BOOT/logo.bmp` and copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
-3. In ArkOS, select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
+```bash
+ES_BIN=/path/to/emulationstation ./run_es_preview.sh
+```
+
+See [ART_STYLE_PROMPTS.md](ART_STYLE_PROMPTS.md) for the pixel-art style guide and prompts used to create shop storefronts.
+
+## Credits
+
+- **Typography:** Peaberry Base (`_inc/fonts/PeaberryBase.ttf`)
+- **Background Music:** `02_Adventure_8bit.ogg` (CC0 8-bit chiptune)
+- **System Logos & Icons:** Standard EmulationStation SVG logos and custom pixel-grid UI icons
+
+## License
+
+Released under the [MIT License](LICENSE).

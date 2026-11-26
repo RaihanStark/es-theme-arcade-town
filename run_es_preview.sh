@@ -3,7 +3,7 @@ set -e
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SANDBOX="$DIR/.es-sandbox"
 
-# Locate EmulationStation binary (allow ES_BIN override, then local build, /tmp, or PATH)
+# Locate EmulationStation binary (allow ES_BIN override, then Batocera build, /tmp, or PATH)
 if [ -n "${ES_BIN:-}" ]; then
   :
 elif [ -x "$HOME/.local/src/batocera-emulationstation/emulationstation" ]; then
