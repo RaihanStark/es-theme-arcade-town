@@ -2,13 +2,13 @@
 <theme>
   <formatVersion>7</formatVersion>
   <view name="system">
-    <!-- Coral highlight plate behind the selected (enlarged) boxed logo -->
+    <!-- Gold-trimmed RPG highlight plate behind the selected boxed logo -->
     <image name="list_selector_bg" extra="true">
       <visible>true</visible>
       <path>${frameDir}/carousel_sel.png</path>
       <origin>0.5 0.5</origin>
-      <pos>0.192 0.503</pos>
-      <size>0.3212 0.1259</size>
+      <pos>0.1922 0.4410</pos>
+      <size>0.289 0.1125</size>
       <linearSmooth>false</linearSmooth>
       <zIndex>12</zIndex>
     </image>

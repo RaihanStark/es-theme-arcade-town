@@ -25,13 +25,15 @@
     <!-- Left Vertical Multi-System Carousel -->
     <carousel name="systemcarousel">
       <type>vertical</type>
-      <pos>0.044 0.118</pos>
-      <size>0.295 0.77</size>
+      <pos>0.044 0.125</pos>
+      <size>0.296875 0.758333</size>
       <origin>0 0</origin>
       <color>00000000</color>
-      <logoScale>1.08</logoScale>
-      <logoSize>0.28 0.105</logoSize>
+      <logoScale>1.06</logoScale>
+      <logoSize>0.26875 0.104167</logoSize>
+      <logoPos>0.0140625 0.263889</logoPos>
       <maxLogoCount>6</maxLogoCount>
+      <minLogoOpacity>0.75</minLogoOpacity>
       <scrollSound>./_inc/sounds/scroll.wav</scrollSound>
       <zIndex>20</zIndex>
     </carousel>
