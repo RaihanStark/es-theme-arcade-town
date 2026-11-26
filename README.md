@@ -45,7 +45,7 @@ A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation-f
 ### Option 2: Git Clone on Device (via SSH / Terminal)
 ```bash
 rm -rf /roms/themes/es-theme-arcade-town
-git clone https://github.com/actuallyraihan/es-theme-arcade-town-fcamod.git /roms/themes/es-theme-arcade-town
+git clone https://github.com/RaihanStark/es-theme-arcade-town.git /roms/themes/es-theme-arcade-town
 ```
 Then select **es-theme-arcade-town** under **Start → UI Settings → Theme Set**.
 
