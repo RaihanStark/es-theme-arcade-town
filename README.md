@@ -38,7 +38,7 @@ A cozy 16-bit pixel-art RPG town frontend theme for **ArkOS / EmulationStation-f
    - `systems/`
    - `_inc/`
    - `art/`
-   *(You do **not** need to copy `screenshots/`, `extras/`, `README.md`, `LICENSE`, `ART_STYLE_PROMPTS.md`, or `run_es_preview.sh` to `themes/`.)*
+   *(You do **not** need to copy `screenshots/`, `extras/`, `README.md`, `TODO.md`, `LICENSE`, `ART_STYLE_PROMPTS.md`, or `run_es_preview.sh` to `themes/`.)*
 5. *(Optional — ArkOS Boot Logo)* Open the `BOOT` partition, back up the existing `BOOT/logo.bmp` (e.g. rename it to `logo.bmp.bak`), then copy `extras/arkos-boot/logo.bmp` to `BOOT/logo.bmp`.
 6. Safely eject the SD card, boot your handheld, and select **es-theme-arcade-town** under **Start → UI Settings → Theme Set** (press **B** / **A** to apply, then restart EmulationStation if prompted).
 
